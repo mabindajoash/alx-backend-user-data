@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """module for basic authentication"""
+
+
 import base64
 from api.v1.auth.auth import Auth
 from typing import Tuple, TypeVar
 from .auth import Auth
 from models.user import User
+
 
 class BasicAuth(Auth):
     """class BasicAuth inheriting from Auth"""
@@ -19,7 +22,7 @@ class BasicAuth(Auth):
         if not authorization_header.startswith("Basic "):
             return None
         return authorization_header.split(" ", 1)[1]
- 
+
     def decode_base64_authorization_header(
         self, base64_authorization_header: str
     ) -> str:
@@ -29,14 +32,14 @@ class BasicAuth(Auth):
         if not isinstance(base64_authorization_header, str):
             return None
         try:
-            decoded = base64.b64decode(base64_authorization_header).decode('utf-8')
+            decoded = base64.b64decode(base64_authorization_header)
         except Exception:
             return None
-        return decoded
+        return decoded.decode('utf-8')
 
     def extract_user_credentials(
         self, decoded_base64_authorization_header: str
-        ) -> (str, str):
+    ) -> (str, str):
         """return user email and password from decoded value"""
         if decoded_base64_authorization_header is None:
             return None, None
@@ -49,7 +52,7 @@ class BasicAuth(Auth):
 
     def user_object_from_credentials(
         self, user_email: str, user_pwd: str
-        ) -> Typevar('User'):
+    ) -> TypeVar('User'):
         """Returns the user instance based on email an password"""
         if not isinstance(user_pwd, str) or user_pwd is None:
             return None
