@@ -17,8 +17,7 @@ class BasicAuth(Auth):
         if not authorization_header.startswith("Basic "):
             return None
         return authorization_header.split(" ", 1)[1]
-
-    
+ 
     def decode_base64_authorization_header(
         self, base64_authorization_header: str
     ) -> str:
@@ -38,10 +37,10 @@ class BasicAuth(Auth):
         ) -> (str, str):
         """return user email and password from decoded value"""
         if decoded_base64_authorization_header is None:
-            return None
+            return None, None
         if not isinstance(decoded_base64_authorization_header, str):
-            return None
+            return None, None
         if ':' not in decoded_base64_authorization_header:
-            return None
+            return None, None
         email, password = decoded_base64_authorization_header.split(":", 1)
         return email, password
