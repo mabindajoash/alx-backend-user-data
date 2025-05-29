@@ -56,7 +56,7 @@ class BasicAuth(Auth):
         """Returns the user instance based on email an password"""
         if not isinstance(user_pwd, str) or user_pwd is None:
             return None
-        if not isinstance(user_email, str) or user_email is Node:
+        if not isinstance(user_email, str) or user_email is None:
             return None
         try:
             user = User.search({'email': user_email})
@@ -65,7 +65,7 @@ class BasicAuth(Auth):
         if not user:
             return None
         if user[0].is_valid_password(user_pwd):
-            return users[0]
+            return user[0]
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
